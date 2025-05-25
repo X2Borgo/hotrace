@@ -6,7 +6,7 @@
 /*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 10:12:32 by alborghi          #+#    #+#             */
-/*   Updated: 2025/05/25 13:03:12 by alborghi         ###   ########.fr       */
+/*   Updated: 2025/05/25 14:31:33 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,12 +143,11 @@ int	byte_cycle(t_data *data, char *buff, t_HashMap *hashmap,
 				&data->buff_i, data->bytes);
 		if (data->ret < 0)
 			return (-1);
-		else if (data->ret == 0)
-			return (0);
 		else if (data->ret == 2)
 		{
 			data->offset = data->bytes - data->buff_i;
-			data->buff_i = data->bytes;
+			// data->buff_i = data->bytes;
+			break ;
 		}
 	}
 	return (1);

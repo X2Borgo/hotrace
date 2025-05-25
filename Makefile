@@ -40,7 +40,7 @@ prof: profile
 
 exec: gen_file
 	@echo "Executing the program..."
-	./$(EXECUTABLE) < test.txt
+	./$(NAME) < test.txt
 
 profile: CFLAGS += -pg
 profile: LDFLAGS += -pg
@@ -48,7 +48,7 @@ profile: re
 
 gprof-report: 
 	@if [ -f gmon.out ]; then \
-		gprof -lp -v $(EXECUTABLE) > profile_report.txt; \
+		gprof -lb -v $(NAME) > profile_report.txt; \
 		echo "Detailed profile report generated as profile_report.txt"; \
 	else \
 		echo "Error: gmon.out not found. Run the program with 'make profile' first."; \
@@ -65,10 +65,10 @@ gprof-visual: gprof-report
 
 # Complete profiling workflow in a single command
 profile-all: profile
-# @echo "Generating test data..."
-# @rm -f gen test.txt
-# cc gen.c -o gen
-# ./gen > test.txt
+	@echo "Generating test data..."
+	@rm -f gen test.txt
+	cc gen.c -o gen
+	./gen > test.txt
 	@echo "Running program with profiling enabled..."
 	./$(NAME) < test.txt
 	@echo "Generating profiling report..."

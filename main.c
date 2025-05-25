@@ -6,7 +6,7 @@
 /*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 09:33:24 by alborghi          #+#    #+#             */
-/*   Updated: 2025/05/25 13:03:00 by alborghi         ###   ########.fr       */
+/*   Updated: 2025/05/25 14:29:58 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,14 @@ void	init_hash_lookup(void)
 	i = '0';
 	while (i <= '9')
 	{
-		g_char_values[i] = i - '9' + 53;
+		g_char_values[i] = i - '0' + 53;
 		i++;
 	}
 	g_char_values['_'] = 63;
 	g_char_values[' '] = 64;
 }
 
+// TODO: change key[i] to a variable pointer tmp and use it in the loop
 long long	hashing(char *key)
 {
 	long long	hash;
@@ -265,10 +266,11 @@ int	print_value(t_HashNode *node, char *key)
 int	main( void )
 {
 	struct timespec start, end;
-    clock_gettime(CLOCK_MONOTONIC, &start);
+	clock_gettime(CLOCK_MONOTONIC, &start);
 	t_HashMap	hashmap;
 	t_longlong	*hashlist;
 
+	hashmap.table = (t_HashNode **)malloc(sizeof(t_HashNode *) * SIZE);
 	ft_memset(hashmap.table, 0, sizeof(t_HashNode *) * SIZE);
 	hashlist = NULL;
 	init_hash_lookup();
@@ -277,6 +279,7 @@ int	main( void )
 		free_hashlist(hashlist);
 		return (1);
 	}
+	ft_write(1, "", 0);
 	clock_gettime(CLOCK_MONOTONIC, &end);
 	double time_taken = (end.tv_sec - start.tv_sec) + 
 	(end.tv_nsec - start.tv_nsec) / 1e9;

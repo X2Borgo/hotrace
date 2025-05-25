@@ -6,22 +6,22 @@
 /*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 09:33:41 by alborghi          #+#    #+#             */
-/*   Updated: 2025/05/25 13:08:03 by alborghi         ###   ########.fr       */
+/*   Updated: 2025/05/25 14:13:21 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HOTRACE_H
 # define HOTRACE_H
 
-// 1MB
+// 1 billion rose challenge
 # define BUFFER_SIZE 1048576
 # define INT_MAX 2147483647
 # define LONGLONG_MAX 9223372036854775807
-# define SIZE 1048589
+# define SIZE 16777619
 # define WRITE_SIZE 2048
 
 # define P 67
-# define M 1048589
+# define M 16777619
 
 # include <time.h>
 # include <stdio.h>
@@ -43,10 +43,9 @@ typedef struct s_HashNode
 	struct s_HashNode	*next;
 }	t_HashNode;
 
-// TODO: try to allocate this dinamically
 typedef struct s_HashMap
 {
-	t_HashNode	*table[SIZE];
+	t_HashNode	**table;
 }	t_HashMap;
 
 typedef struct s_cases
