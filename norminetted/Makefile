@@ -1,6 +1,6 @@
 NAME = hotrace
 
-CFLAGS = -Wall -Wextra -Werror -O3
+CFLAGS = -Wall -Wextra -Werror -O3 -march=native -mtune=native -flto -funroll-loops -ffast-math
 
 SRCS = \
 main.c \
