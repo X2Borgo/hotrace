@@ -3,14 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 09:33:24 by alborghi          #+#    #+#             */
-/*   Updated: 2025/05/25 09:55:06 by alborghi         ###   ########.fr       */
+/*   Updated: 2025/05/25 10:59:49 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hotrace.h"
+
+/* static int	g_char_values[256];
+
+void	init_hash_lookup(void)
+{
+	int	i;
+
+	ft_memset(g_char_values, 0, sizeof(g_char_values));
+	i = 'a';
+	while (i <= 'z')
+	{
+		g_char_values[i] = i - 'a' + 1;
+		i++;
+	}
+	i = 'A';
+	while (i <= 'Z')
+	{
+		g_char_values[i] = i - 'A' + 27;
+		i++;
+	}
+	i = '0';
+	while (i <= '9')
+	{
+		g_char_values[i] = i - '9' + 53;
+		i++;
+	}
+	g_char_values['_'] = 63;
+	g_char_values[' '] = 64;
+}
+
+long long	hashing_2(char *key)
+{
+	long long	hash;
+	int			i;
+	long long	p_pow;
+	int			char_val;
+
+	i = 0;
+	hash = 0;
+	p_pow = 1;
+	while (key[i] && key[i] != '\n')
+	{
+		char_val = g_char_values[(unsigned char)key[i]];
+		if (char_val == 0)
+			return (-1);
+		hash = (hash + char_val * p_pow) % M;
+		p_pow = (p_pow * P) % M;
+		i++;
+	}
+	return (hash);
+} */
 
 long long	hashing(char *key)
 {
@@ -96,46 +147,59 @@ void	free_hashlist(t_longlong *hashlist)
 	}
 }
 
-int	append_hashmap(t_HashNode **node, char *key, char *value)
+int	existing_nodes(t_HashNode *node, char *key, char *value, t_HashNode **last)
 {
 	t_HashNode	*tmp;
+
+	tmp = node;
+	*last = tmp;
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
+		{
+			free(tmp->value);
+			tmp->value = value;
+			return (1);
+		}
+		*last = tmp;
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+t_HashNode	*create_hash_node(char *key, char *value)
+{
+	t_HashNode	*node;
+
+	node = (t_HashNode *)ft_calloc(1, sizeof(t_HashNode));
+	if (!node)
+		return (NULL);
+	node->key = key;
+	node->value = value;
+	node->next = NULL;
+	return (node);
+}
+
+int	append_hashmap(t_HashNode **node, char *key, char *value)
+{
 	t_HashNode	*last;
-	size_t		key_len;
 
 	if (!key || !value)
 		return (0);
 	if (*node == NULL)
 	{
-		*node = (t_HashNode *)malloc(sizeof(t_HashNode));
+		*node = create_hash_node(key, value);
 		if (!*node)
 			return (0);
-		(*node)->key = key;
-		(*node)->value = value;
-		(*node)->next = NULL;
 	}
 	else
 	{
-		tmp = *node;
-		last = tmp;
-		key_len = ft_strlen(key);
-		while (tmp)
-		{
-			if (ft_strncmp(tmp->key, key, key_len) == 0)
-			{
-				free(tmp->value);
-				tmp->value = value;
-				return (1);
-			}
-			last = tmp;
-			tmp = tmp->next;
-		}
-		last->next = (t_HashNode *)malloc(sizeof(t_HashNode));
+		if (existing_nodes(*node, key, value, &last))
+			return (1);
+		last->next = create_hash_node(key, value);
 		if (!last->next)
 			return (0);
 		last = last->next;
-		last->key = key;
-		last->value = value;
-		last->next = NULL;
 	}
 	return (1);
 }
