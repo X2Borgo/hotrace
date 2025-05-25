@@ -12,7 +12,8 @@ ft_memset.c \
 ft_memcpy.c \
 ft_strlcpy.c \
 ft_strlcat.c \
-ft_strncmp.c
+ft_strncmp.c \
+ft_write.c
 
 all: $(NAME)
 
@@ -64,10 +65,10 @@ gprof-visual: gprof-report
 
 # Complete profiling workflow in a single command
 profile-all: profile
-	@echo "Generating test data..."
-	@rm -f gen test.txt
-	cc gen.c -o gen
-	./gen > test.txt
+# @echo "Generating test data..."
+# @rm -f gen test.txt
+# cc gen.c -o gen
+# ./gen > test.txt
 	@echo "Running program with profiling enabled..."
 	./$(NAME) < test.txt
 	@echo "Generating profiling report..."

@@ -8,5 +8,6 @@ gmon.out
 hotrace
 out
 profile.png
+test
 
 !.gitignore

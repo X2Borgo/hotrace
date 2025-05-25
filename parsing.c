@@ -6,7 +6,7 @@
 /*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 10:12:32 by alborghi          #+#    #+#             */
-/*   Updated: 2025/05/25 11:12:16 by alborghi         ###   ########.fr       */
+/*   Updated: 2025/05/25 13:03:12 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,24 @@
 
 int	case_key(char *line, t_longlong **hashlist, char **key, long long *hash)
 {
+	static t_longlong	*tail = NULL;
+
 	*key = ft_strdup(line);
 	if (!*key)
 	{
-		printf("error: memory allocation failed!\n");
+		write(2, "error: memory allocation failed!\n", 33);
 		return (0);
 	}
 	*hash = hashing(line);
 	if (*hash < 0)
 	{
-		printf("error: key not valid!\n");
+		write(2, "error: key not valid!\n", 22);
 		return (0);
 	}
-	if (!append_hashlist(hashlist, *hash))
+	tail = append_hashlist(hashlist, tail, *hash);
+	if (!tail)
 	{
-		printf("error: memory allocation failed!\n");
+		write(2, "error: memory allocation failed!\n", 33);
 		return (0);
 	}
 	return (1);
@@ -41,7 +44,7 @@ int	reading(char *buff, int len, int offset)
 	bytes = read(STDIN_FILENO, buff + offset, len - offset);
 	if (bytes < 0)
 	{
-		printf("error: reading from stdin\n");
+		write(2, "error: reading from stdin\n", 26);
 		return (-1);
 	}
 	if (bytes == 0)
@@ -51,49 +54,102 @@ int	reading(char *buff, int len, int offset)
 	return (bytes);
 }
 
-int	init_len(char *line, char *buff, int buff_i, char *c)
+int	init_len(char *line, char *buff, int *buff_i, char *c)
 {
-	int len;
+	int	len;
 
-	len = c - (buff + buff_i);
+	len = c - (buff + *buff_i);
 	if (len == 0)
-	{
-		// i = 2;
-		buff_i++;
-		// continue ;
-		return (0);
-	}
-	ft_memcpy(line, buff + buff_i, len);
+		return (*buff_i += 1, 0);
+	ft_memcpy(line, buff + *buff_i, len);
 	line[len] = '\0';
 	return (len);
 }
 
-int	handle_cases(t_cases input_case)
+void	line_message(char *line, char *message)
 {
-	if (*(input_case.i) == 0)
+	ft_write(1, line, ft_strlen(line));
+	ft_write(1, message, ft_strlen(message));
+}
+
+int	handle_cases(t_cases *data, char *line)
+{
+	if (*(data->i) == 0)
 	{
-		if (!case_key(input_case.line, input_case.hashlist,
-				input_case.key, &input_case.hash))
+		if (!case_key(line, data->hashlist, data->key, data->hash))
 			return (-1);
-		*(input_case.i) = 1;
+		*(data->i) = 1;
 	}
-	else if (*(input_case.i) == 1)
+	else if (*(data->i) == 1)
 	{
-		if (!append_hashmap(&(input_case.hashmap->table[input_case.hash]),
-				*(input_case.key), ft_strdup(input_case.line)))
-			return (printf("error: memory allocation failed!\n"), -1);
-		*(input_case.i) = 0;
+		if (!append_hashmap(&(data->hashmap->table[*(data->hash)]),
+				*(data->key), ft_strdup(line)))
+			return (write(2, "error: memory allocation failed!\n", 33), -1);
+		*(data->i) = 0;
 	}
 	else
 	{
-		input_case.hash = hashing(input_case.line);
-		if (input_case.hash < 0)
-			return (printf("error: key not valid!\n"), 1);
-		if (input_case.hashmap->table[input_case.hash])
-			print_value(input_case.hashmap->table[input_case.hash],
-				input_case.line);
+		*(data->hash) = hashing(line);
+		if (*(data->hash) < 0)
+			return (line_message(line, ": key not valid\n"), 1);
+		if (data->hashmap->table[*(data->hash)])
+			print_value(data->hashmap->table[*(data->hash)], line);
 		else
-			printf("%s: not found\n", input_case.line);
+			return (line_message(line, ": not found\n"), 1);
+	}
+	return (1);
+}
+
+int	buff_cycle(t_cases *input_case, char *buff, int *buff_i, int bytes)
+{
+	char	line[BUFFER_SIZE + 1];
+	char	*c;
+	int		len;
+
+	c = ft_strchr(buff + *buff_i, '\n');
+	if (c)
+	{
+		len = init_len(line, buff, buff_i, c);
+		if (len == 0)
+		{
+			*(input_case->i) = 2;
+			return (0);
+		}
+		if (handle_cases(input_case, line) < 0)
+			return (-1);
+		*buff_i += len + 1;
+	}
+	else
+	{
+		ft_memcpy(buff, buff + *buff_i, bytes - *buff_i);
+		return (2);
+	}
+	return (1);
+}
+
+int	byte_cycle(t_data *data, char *buff, t_HashMap *hashmap,
+	t_longlong **hashlist)
+{
+	data->bytes = reading(buff, BUFFER_SIZE, data->offset);
+	if (data->bytes < 0)
+		return (-1);
+	if (data->bytes == 0)
+		return (0);
+	data->buff_i = 0;
+	while (data->buff_i < data->bytes)
+	{
+		data->ret = buff_cycle(&(t_cases){&data->i, buff + data->buff_i,
+				hashlist, hashmap, &data->key, &data->hash}, buff,
+				&data->buff_i, data->bytes);
+		if (data->ret < 0)
+			return (-1);
+		else if (data->ret == 0)
+			return (0);
+		else if (data->ret == 2)
+		{
+			data->offset = data->bytes - data->buff_i;
+			data->buff_i = data->bytes;
+		}
 	}
 	return (1);
 }
@@ -101,51 +157,15 @@ int	handle_cases(t_cases input_case)
 int	parsing(t_HashMap *hashmap, t_longlong **hashlist)
 {
 	char		buff[BUFFER_SIZE + 1];
-	char		line[BUFFER_SIZE + 1];
-	long long	hash;
-	int			bytes;
-	int			buff_i;
-	char		*key;
-	int			i;
-	int			len;
-	char		*c;
-	int			offset;
+	t_data		data;
+	int			ret;
 
-	i = 0;
-	bytes = 1;
-	offset = 0;
-	hash = 0;
-	while (bytes > 0)
+	data = (t_data){0, 1, 0, 0, 0, 0, NULL};
+	while (data.bytes > 0)
 	{
-		bytes = reading(buff, BUFFER_SIZE, offset);
-		if (bytes < 0)
+		ret = byte_cycle(&data, buff, hashmap, hashlist);
+		if (ret < 0)
 			return (0);
-		if (bytes == 0)
-			return (1);
-		buff_i = 0;
-		while (buff_i < bytes)
-		{
-			c = ft_strchr(buff + buff_i, '\n');
-			if (c)
-			{
-				len = init_len(line, buff, buff_i, c);
-				if (len == 0)
-				{
-					buff_i++;
-					continue;
-				}
-				if (handle_cases((t_cases){&i, line, hashlist, hashmap,
-					&key, hash}) < 0)
-					return (-1);
-				buff_i += len + 1;
-			}
-			else
-			{
-				ft_memcpy(buff, buff + buff_i, bytes - buff_i);
-				offset = bytes - buff_i;
-				buff_i = bytes;
-			}
-		}
 	}
 	return (1);
 }

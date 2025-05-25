@@ -4,8 +4,8 @@
 #include <stdbool.h>
 #include <time.h>
 
-#define num_keys 30000
-#define tests 10000
+#define num_keys 1000000
+#define tests 2000000
 #define bad_test_chance 5
 
 #define key_size 50
@@ -56,7 +56,7 @@ int main()
 		write(STDOUT_FILENO, "\n", 1);
 		free(data);
 	}
-
+	// return 0;
 	write(STDOUT_FILENO, "\n", 1);	// empty line
 
 	for (int i = 0; i < tests; i++)
