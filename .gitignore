@@ -1,0 +1,11 @@
+*.txt
+*.htr
+my_libft
+.*
+en.subject.pdf
+gen
+gmon.out
+hotrace
+out
+
+!.gitignore

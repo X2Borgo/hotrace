@@ -2,9 +2,10 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <time.h>
 
-#define num_keys 100000
-#define tests 1000
+#define num_keys 50000
+#define tests 10000
 #define bad_test_chance 5
 
 #define key_size 50
@@ -43,6 +44,7 @@ int main()
 {
 	char* keys[num_keys];
 
+	srand(time(NULL));
 	for (int i = 0; i < num_keys; i++)
 	{
 		keys[i] = gen_key(key_size);

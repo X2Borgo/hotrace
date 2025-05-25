@@ -6,13 +6,13 @@
 /*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:58:34 by alborghi          #+#    #+#             */
-/*   Updated: 2025/05/24 09:44:14 by alborghi         ###   ########.fr       */
+/*   Updated: 2025/05/24 19:51:27 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hotrace.h"
 
-char	*ft_strdup(const char *s)
+/* char	*ft_strdup(const char *s)
 {
 	char	*dup;
 	size_t	len;
@@ -24,6 +24,22 @@ char	*ft_strdup(const char *s)
 	if (dup == NULL)
 		return (NULL);
 	ft_strlcpy(dup, s, len);
+	return (dup);
+} */
+
+char	*ft_strdup(const char *s)
+{
+	char	*dup;
+	size_t	len;
+
+	if (!s)
+		return (NULL);
+	len = ft_strlen(s);
+	dup = (char *)malloc(len + 1);
+	if (!dup)
+		return (NULL);
+	memcpy(dup, s, len);
+	dup[len] = '\0';
 	return (dup);
 }
 
