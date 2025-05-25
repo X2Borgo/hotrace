@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io_memory.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 15:21:36 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/05/25 16:03:04 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:54:44 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,18 @@ void	ft_write(int fd, const char *str, size_t len)
 	buffer_index += len;
 }
 
-void	free_hashmap(t_HashMap *hashmap, t_longlong *hashlist)
+void	free_hashmap(t_HashMap *hashmap)
 {
+	int i;
 	t_HashNode	*tmp;
-	t_longlong	*tmp_hash;
 	t_HashNode	*to_free;
 
-	if (!hashmap || !hashlist)
+	if (!hashmap)
 		return ;
-	tmp_hash = hashlist;
-	while (tmp_hash)
+	i = 0;
+	while (i < SIZE)
 	{
-		tmp = hashmap->table[tmp_hash->hash];
+		tmp = hashmap->table[i];
 		while (tmp)
 		{
 			to_free = tmp;
@@ -52,8 +52,9 @@ void	free_hashmap(t_HashMap *hashmap, t_longlong *hashlist)
 			free(to_free->value);
 			free(to_free);
 		}
-		tmp_hash = tmp_hash->next;
+		i++;
 	}
+	free(hashmap->table);
 }
 
 void	free_hashlist(t_longlong *hashlist)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_core.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 15:18:17 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/05/25 15:57:15 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:35:41 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,11 @@ int	buff_cycle(t_cases *input_case, char *buff, int *buff_i, int bytes)
 		len = init_len(line, buff, buff_i, c);
 		if (len == 0)
 		{
+			if (*(input_case->i) == 1 && *(input_case->key))
+			{
+                free(*(input_case->key));
+                *(input_case->key) = NULL;
+            }
 			*(input_case->i) = 2;
 			return (0);
 		}

@@ -6,7 +6,7 @@
 /*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 09:33:41 by alborghi          #+#    #+#             */
-/*   Updated: 2025/05/25 14:13:21 by alborghi         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:55:03 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 
 // 1 billion rose challenge
 # define BUFFER_SIZE 1048576
-# define INT_MAX 2147483647
-# define LONGLONG_MAX 9223372036854775807
-# define SIZE 16777619
 # define WRITE_SIZE 2048
+# define SIZE 16777619
 
 # define P 67
 # define M 16777619
+
+# define INT_MAX 2147483647
+# define LONGLONG_MAX 9223372036854775807
 
 # include <time.h>
 # include <stdio.h>
@@ -69,28 +70,44 @@ typedef struct s_data
 	char		*key;
 }	t_data;
 
-size_t		ft_strlcpy(char *dest, const char *src, size_t size);
-size_t		ft_strlcat(char *dest, char *src, size_t size);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
+extern int	g_char_values[256];
 
-void		ft_write(int fd, const char *str, size_t len);
+// core_hash.c - Performance critical hash operations
+long long	hashing(char *key);
+int			ft_strcmp(const char *s1, const char *s2);
+t_HashNode	*create_hash_node(char *key, char *value);
+int			existing_nodes(t_HashNode *node, char *key, char *value,
+				t_HashNode **last);
+int			append_hashmap(t_HashNode **node, char *key, char *value);
 
-size_t		ft_strlen(const char *str);
-
+// memory_ops.c - Optimized memory operations
 void		*ft_memcpy(void *dest, const void *src, size_t n);
 void		*ft_memset(void *s, int c, size_t n);
-
+size_t		ft_strlen(const char *str);
 char		*ft_strdup(const char *s);
-char		*ft_strndup(const char *s, size_t len);
-
 char		*ft_strchr(const char *s, int c);
-char		*ft_strnchr(const char *s, int c, size_t len);
 
-long long	hashing(char *key);
+// parsing_core.c - Core parsing functions
+int			reading(char *buff, int len, int offset);
+int			init_len(char *line, char *buff, int *buff_i, char *c);
+int			handle_cases(t_cases *data, char *line);
+int			buff_cycle(t_cases *input_case, char *buff, int *buff_i, int bytes);
+int			byte_cycle(t_data *data, char *buff, t_HashMap *hashmap,
+				t_longlong **hashlist);
+
+// parsing_utils.c - Parsing utilities
+int			case_key(char *line, t_longlong **hashlist, char **key,
+				long long *hash);
+void		line_message(char *line, char *message);
+int			parsing(t_HashMap *hashmap, t_longlong **hashlist);
 t_longlong	*append_hashlist(t_longlong **hashlist, t_longlong *tail,
 				long long hash);
-int			append_hashmap(t_HashNode **node, char *key, char *value);
 int			print_value(t_HashNode *node, char *key);
-int			parsing(t_HashMap *hashmap, t_longlong **hashlist);
+
+// io_memory.c - I/O and memory management
+void		ft_write(int fd, const char *str, size_t len);
+void		free_hashmap(t_HashMap *hashmap);
+void		free_hashlist(t_longlong *hashlist);
+void		init_hash_lookup(void);
 
 #endif

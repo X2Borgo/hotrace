@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 15:20:02 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/05/25 15:59:42 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:38:02 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	parsing(t_HashMap *hashmap, t_longlong **hashlist)
 		if (ret < 0)
 			return (0);
 	}
+	if (data.i == 1 && data.key)
+        free(data.key);
 	return (1);
 }
 

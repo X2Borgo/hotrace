@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   core_hash.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 15:09:17 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/05/25 15:53:30 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:50:30 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int	existing_nodes(t_HashNode *node, char *key, char *value, t_HashNode **last)
 		if (ft_strcmp(tmp->key, key) == 0)
 		{
 			free(tmp->value);
+			free(key);
 			tmp->value = value;
 			return (1);
 		}

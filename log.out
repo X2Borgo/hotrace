@@ -1,0 +1,14 @@
+==4144360== Memcheck, a memory error detector
+==4144360== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==4144360== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==4144360== Command: ./hotrace
+==4144360== Parent PID: 4133120
+==4144360== 
+==4144360== 
+==4144360== HEAP SUMMARY:
+==4144360==     in use at exit: 0 bytes in 0 blocks
+==4144360==   total heap usage: 18 allocs, 18 frees, 134,221,260 bytes allocated
+==4144360== 
+==4144360== All heap blocks were freed -- no leaks are possible
+==4144360== 
+==4144360== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

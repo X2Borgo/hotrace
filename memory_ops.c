@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory_ops.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 15:11:28 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/05/25 15:56:04 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:09:39 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,16 @@ void	*ft_memset(void *s, int c, size_t n)
 
 size_t	ft_strlen(const char *str)
 {
-	const char	*s;
-	size_t		word;
+	size_t	i;
 
+	i = 0;
 	if (!str)
 		return (0);
-	s = str;
-	while (((uintptr_t)s & (sizeof(size_t) - 1)) == 0)
+	while (str[i] != '\0')
 	{
-		word = *(size_t *)s;
-		if (((word - 0x0101010101010101UL) & ~word & 0x8080808080808080UL))
-			break ;
-		s += sizeof(size_t);
+		i++;
 	}
-	while (*s)
-		s++;
-	return (s - str);
+	return (i);
 }
 
 char	*ft_strdup(const char *s)
