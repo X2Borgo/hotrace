@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 09:33:24 by alborghi          #+#    #+#             */
-/*   Updated: 2025/05/25 13:03:00 by alborghi         ###   ########.fr       */
+/*   Updated: 2025/05/25 14:23:02 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	init_hash_lookup(void)
 	i = '0';
 	while (i <= '9')
 	{
-		g_char_values[i] = i - '9' + 53;
+		g_char_values[i] = i - '0' + 53;
 		i++;
 	}
 	g_char_values['_'] = 63;
@@ -43,22 +43,22 @@ void	init_hash_lookup(void)
 
 long long	hashing(char *key)
 {
-	long long	hash;
-	int			i;
-	long long	p_pow;
-	int			char_val;
+	long long		hash;
+	long long		p_pow;
+	int				char_val;
+	unsigned char	*ukey;
 
-	i = 0;
 	hash = 0;
 	p_pow = 1;
-	while (key[i] && key[i] != '\n')
+	ukey = (unsigned char *)key;
+	while (*ukey && *ukey != '\n')
 	{
-		char_val = g_char_values[(unsigned char)key[i]];
+		char_val = g_char_values[*ukey];
 		if (char_val == 0)
 			return (-1);
 		hash = (hash + char_val * p_pow) % M;
 		p_pow = (p_pow * P) % M;
-		i++;
+		ukey++;
 	}
 	return (hash);
 }
@@ -264,7 +264,7 @@ int	print_value(t_HashNode *node, char *key)
 
 int	main( void )
 {
-	struct timespec start, end;
+	struct timespec	start, end;
     clock_gettime(CLOCK_MONOTONIC, &start);
 	t_HashMap	hashmap;
 	t_longlong	*hashlist;
