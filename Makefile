@@ -4,16 +4,15 @@ CFLAGS = -Wall -Wextra -Werror -O3
 
 SRCS = \
 main.c \
-ft_calloc.c \
+parsing.c \
 ft_strchr.c \
 ft_strdup.c \
 ft_strlen.c \
 ft_memset.c \
+ft_memcpy.c \
 ft_strlcpy.c \
 ft_strlcat.c \
-ft_strncmp.c \
-ft_putchar.c \
-ft_putnbr.c
+ft_strncmp.c
 
 all: $(NAME)
 

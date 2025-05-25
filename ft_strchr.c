@@ -6,7 +6,7 @@
 /*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:44:34 by alborghi          #+#    #+#             */
-/*   Updated: 2025/05/24 09:39:07 by alborghi         ###   ########.fr       */
+/*   Updated: 2025/05/25 10:03:54 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,4 @@ char	*ft_strnchr(const char *s, int c, size_t len)
 	if (s[i] == ch)
 		return ((char *)&s[i]);
 	return (NULL);
-}
-
-int	ft_matchr(char **mat, char c)
-{
-	int	i;
-
-	i = 0;
-	while (mat[i])
-	{
-		if (ft_strchr(mat[i], c))
-			return (1);
-		i++;
-	}
-	return (0);
 }

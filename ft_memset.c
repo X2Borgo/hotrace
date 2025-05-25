@@ -6,7 +6,7 @@
 /*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 12:24:53 by alborghi          #+#    #+#             */
-/*   Updated: 2025/05/24 09:41:58 by alborghi         ###   ########.fr       */
+/*   Updated: 2025/05/25 10:02:21 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,3 @@ void	*ft_memset(void *s, int c, size_t n)
 	}
 	return (s);
 }
-
-/* int main()
-{
-	char str[50] = "Hello World!";
-	ft_memset(str, 'a', 5);
-	printf("%s\n", str);
-	return (0);
-} */

@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <time.h>
 
-#define num_keys 50000
+#define num_keys 30000
 #define tests 10000
 #define bad_test_chance 5
 

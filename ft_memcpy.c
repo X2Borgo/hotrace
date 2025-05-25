@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 12:29:12 by alborghi          #+#    #+#             */
-/*   Updated: 2025/05/24 13:55:13 by alborghi         ###   ########.fr       */
+/*   Created: 2024/11/18 13:42:51 by alborghi          #+#    #+#             */
+/*   Updated: 2025/05/25 10:05:19 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hotrace.h"
 
-int	ft_putnbr(int n)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	unsigned int	nb;
-	int				len;
+	size_t	i;
 
-	len = 0;
-	if (n < 0)
+	if (!dest && !src)
+		return (NULL);
+	i = 0;
+	while (i < n)
 	{
-		len += ft_putchar('-');
-		nb = (unsigned int)(-n);
+		((unsigned char *)dest)[i] = ((const unsigned char *)src)[i];
+		i++;
 	}
-	else
-		nb = (unsigned int)n;
-	if (nb >= 10)
-		len += ft_putnbr(nb / 10);
-	len += ft_putchar(nb % 10 + '0');
-	return (len);
+	return (dest);
 }

@@ -6,7 +6,7 @@
 /*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:58:34 by alborghi          #+#    #+#             */
-/*   Updated: 2025/05/24 19:51:27 by alborghi         ###   ########.fr       */
+/*   Updated: 2025/05/25 10:07:35 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 	if (!s)
 		return (NULL);
 	len = ft_strlen(s) + 1;
-	dup = (char *)ft_calloc(len, sizeof(char));
+	dup = (char *)malloc(len);
 	if (dup == NULL)
 		return (NULL);
 	ft_strlcpy(dup, s, len);
@@ -38,7 +38,7 @@ char	*ft_strdup(const char *s)
 	dup = (char *)malloc(len + 1);
 	if (!dup)
 		return (NULL);
-	memcpy(dup, s, len);
+	ft_memcpy(dup, s, len);
 	dup[len] = '\0';
 	return (dup);
 }
@@ -61,19 +61,4 @@ char	*ft_strndup(const char *s, size_t len)
 	}
 	dup[i] = '\0';
 	return (dup);
-}
-
-char	*str_dup_till_charset(const char *str, const char *charset)
-{
-	int		i;
-	char	*ret;
-
-	i = 0;
-	while (str[i] && !ft_strchr(charset, str[i]))
-		i++;
-	ret = ft_calloc(i + 1, sizeof(char));
-	if (!ret)
-		return (NULL);
-	ft_strlcpy(ret, str, i + 1);
-	return (ret);
 }

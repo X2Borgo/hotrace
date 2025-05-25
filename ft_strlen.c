@@ -6,7 +6,7 @@
 /*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 12:20:50 by alborghi          #+#    #+#             */
-/*   Updated: 2025/05/24 19:51:00 by alborghi         ###   ########.fr       */
+/*   Updated: 2025/05/25 10:06:39 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,5 @@ int	ft_strlen_int(const char *str)
 	{
 		i++;
 	}
-	return (i);
-}
-
-int	ft_char_mat_len(char **mat)
-{
-	int	i;
-
-	i = 0;
-	while (mat[i])
-		i++;
 	return (i);
 }
