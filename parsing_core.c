@@ -6,7 +6,7 @@
 /*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 15:18:17 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/05/25 17:59:20 by alborghi         ###   ########.fr       */
+/*   Updated: 2025/05/25 18:39:46 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ int	buff_cycle(t_cases *input_case, char *buff, int *buff_i, int bytes)
 		{
 			if (*(input_case->i) == 1 && *(input_case->key))
 			{
-                free(*(input_case->key));
-                *(input_case->key) = NULL;
-            }
+				free(*(input_case->key));
+				*(input_case->key) = NULL;
+			}
 			*(input_case->i) = 2;
 			return (0);
 		}
@@ -94,10 +94,7 @@ int	buff_cycle(t_cases *input_case, char *buff, int *buff_i, int bytes)
 		*buff_i += len + 1;
 	}
 	else
-	{
-		ft_memcpy(buff, buff + *buff_i, bytes - *buff_i);
-		return (2);
-	}
+		return (ft_memcpy(buff, buff + *buff_i, bytes - *buff_i), 2);
 	return (1);
 }
 

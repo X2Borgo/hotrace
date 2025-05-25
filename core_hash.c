@@ -6,7 +6,7 @@
 /*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 15:09:17 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/05/25 17:50:30 by alborghi         ###   ########.fr       */
+/*   Updated: 2025/05/25 18:16:45 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,29 @@
 
 long long	hashing(char *key)
 {
-	long long		hash;
-	long long		p_pow;
-	int				char_val;
-	unsigned char	*ukey;
+	long long	hash;
+	int			i;
+	long long	p_pow;
 
+	i = 0;
 	hash = 0;
 	p_pow = 1;
-	ukey = (unsigned char *)key;
-	while (*ukey && *ukey != '\n')
+	while (key[i] && key[i] != '\n')
 	{
-		char_val = g_char_values[*ukey];
-		if (char_val == 0)
+		if (key[i] >= 'a' && key[i] <= 'z')
+			hash = (hash + (key[i] - 'a' + 1) * p_pow) % M;
+		else if (key[i] >= 'A' && key[i] <= 'Z')
+			hash = (hash + (key[i] - 'A' + 27) * p_pow) % M;
+		else if (key[i] >= '0' && key[i] <= '9')
+			hash = (hash + (key[i] - '0' + 53) * p_pow) % M;
+		else if (key[i] == '_')
+			hash = (hash + 63 * p_pow) % M;
+		else if (key[i] == ' ')
+			hash = (hash + 64 * p_pow) % M;
+		else
 			return (-1);
-		hash = (hash + char_val * p_pow) % M;
 		p_pow = (p_pow * P) % M;
-		ukey++;
+		i++;
 	}
 	return (hash);
 }

@@ -6,7 +6,7 @@
 /*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 09:33:41 by alborghi          #+#    #+#             */
-/*   Updated: 2025/05/25 17:57:45 by alborghi         ###   ########.fr       */
+/*   Updated: 2025/05/25 18:43:00 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,8 @@
 # define INT_MAX 2147483647
 # define LONGLONG_MAX 9223372036854775807
 
-# include <time.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <string.h>
-# include <stdint.h>
 
 typedef struct s_HashNode
 {
@@ -63,8 +59,6 @@ typedef struct s_data
 	char		*key;
 }	t_data;
 
-extern int	g_char_values[256];
-
 // core_hash.c - Performance critical hash operations
 long long	hashing(char *key);
 int			ft_strcmp(const char *s1, const char *s2);
@@ -94,9 +88,6 @@ void		line_message(char *line, char *message);
 int			parsing(t_HashMap *hashmap);
 int			print_value(t_HashNode *node, char *key);
 
-// io_memory.c - I/O and memory management
-void		ft_write(int fd, const char *str, size_t len);
+// main.c
 void		free_hashmap(t_HashMap *hashmap);
-void		init_hash_lookup(void);
-
 #endif
