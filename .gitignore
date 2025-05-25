@@ -9,5 +9,6 @@ hotrace
 out
 profile.png
 test
+test_files
 
 !.gitignore

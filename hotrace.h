@@ -6,7 +6,7 @@
 /*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 09:33:41 by alborghi          #+#    #+#             */
-/*   Updated: 2025/05/25 17:55:03 by alborghi         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:57:45 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,6 @@
 # include <string.h>
 # include <stdint.h>
 
-typedef struct s_longlong
-{
-	long long			hash;
-	struct s_longlong	*next;
-}	t_longlong;
-
 typedef struct s_HashNode
 {
 	char				*key;
@@ -53,7 +47,6 @@ typedef struct s_cases
 {
 	int			*i;
 	char		*line;
-	t_longlong	**hashlist;
 	t_HashMap	*hashmap;
 	char		**key;
 	long long	*hash;
@@ -92,22 +85,18 @@ int			reading(char *buff, int len, int offset);
 int			init_len(char *line, char *buff, int *buff_i, char *c);
 int			handle_cases(t_cases *data, char *line);
 int			buff_cycle(t_cases *input_case, char *buff, int *buff_i, int bytes);
-int			byte_cycle(t_data *data, char *buff, t_HashMap *hashmap,
-				t_longlong **hashlist);
+int			byte_cycle(t_data *data, char *buff, t_HashMap *hashmap);
 
 // parsing_utils.c - Parsing utilities
-int			case_key(char *line, t_longlong **hashlist, char **key,
+int			case_key(char *line, char **key,
 				long long *hash);
 void		line_message(char *line, char *message);
-int			parsing(t_HashMap *hashmap, t_longlong **hashlist);
-t_longlong	*append_hashlist(t_longlong **hashlist, t_longlong *tail,
-				long long hash);
+int			parsing(t_HashMap *hashmap);
 int			print_value(t_HashNode *node, char *key);
 
 // io_memory.c - I/O and memory management
 void		ft_write(int fd, const char *str, size_t len);
 void		free_hashmap(t_HashMap *hashmap);
-void		free_hashlist(t_longlong *hashlist);
 void		init_hash_lookup(void);
 
 #endif

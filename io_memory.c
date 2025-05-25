@@ -6,7 +6,7 @@
 /*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 15:21:36 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/05/25 17:54:44 by alborghi         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:57:58 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,6 @@ void	free_hashmap(t_HashMap *hashmap)
 		i++;
 	}
 	free(hashmap->table);
-}
-
-void	free_hashlist(t_longlong *hashlist)
-{
-	t_longlong	*tmp;
-
-	while (hashlist)
-	{
-		tmp = hashlist;
-		hashlist = hashlist->next;
-		free(tmp);
-	}
 }
 
 void	init_hash_lookup(void)

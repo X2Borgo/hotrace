@@ -6,7 +6,7 @@
 /*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 15:18:17 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/05/25 17:35:41 by alborghi         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:59:20 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	handle_cases(t_cases *data, char *line)
 {
 	if (*(data->i) == 0)
 	{
-		if (!case_key(line, data->hashlist, data->key, data->hash))
+		if (!case_key(line, data->key, data->hash))
 			return (-1);
 		*(data->i) = 1;
 	}
@@ -101,8 +101,7 @@ int	buff_cycle(t_cases *input_case, char *buff, int *buff_i, int bytes)
 	return (1);
 }
 
-int	byte_cycle(t_data *data, char *buff, t_HashMap *hashmap,
-	t_longlong **hashlist)
+int	byte_cycle(t_data *data, char *buff, t_HashMap *hashmap)
 {
 	data->bytes = reading(buff, BUFFER_SIZE, data->offset);
 	if (data->bytes < 0)
@@ -113,7 +112,7 @@ int	byte_cycle(t_data *data, char *buff, t_HashMap *hashmap,
 	while (data->buff_i < data->bytes)
 	{
 		data->ret = buff_cycle(&(t_cases){&data->i, buff + data->buff_i,
-				hashlist, hashmap, &data->key, &data->hash}, buff,
+				hashmap, &data->key, &data->hash}, buff,
 				&data->buff_i, data->bytes);
 		if (data->ret < 0)
 			return (-1);
