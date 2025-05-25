@@ -6,7 +6,7 @@
 /*   By: alborghi <alborghi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 09:33:24 by alborghi          #+#    #+#             */
-/*   Updated: 2025/05/25 14:29:58 by alborghi         ###   ########.fr       */
+/*   Updated: 2025/05/25 14:48:51 by alborghi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,22 @@ void	init_hash_lookup(void)
 // TODO: change key[i] to a variable pointer tmp and use it in the loop
 long long	hashing(char *key)
 {
-	long long	hash;
-	int			i;
-	long long	p_pow;
-	int			char_val;
+	long long		hash;
+	long long		p_pow;
+	int				char_val;
+	unsigned char	*ukey;
 
-	i = 0;
 	hash = 0;
 	p_pow = 1;
-	while (key[i] && key[i] != '\n')
+	ukey = (unsigned char *)key;
+	while (*ukey && *ukey != '\n')
 	{
-		char_val = g_char_values[(unsigned char)key[i]];
+		char_val = g_char_values[*ukey];
 		if (char_val == 0)
 			return (-1);
 		hash = (hash + char_val * p_pow) % M;
 		p_pow = (p_pow * P) % M;
-		i++;
+		ukey++;
 	}
 	return (hash);
 }
